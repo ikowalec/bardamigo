@@ -28,11 +28,20 @@ Hooks.once('init', async () => {
     card: CardData
   };
 
+  // Configure Type Labels for Document Creation Dialogs
+  CONFIG.Actor.typeLabels = {
+    character: 'BARDAMIGO.Character',
+    npc: 'BARDAMIGO.NPC'
+  };
+  CONFIG.Item.typeLabels = {
+    card: 'BARDAMIGO.Card'
+  };
+
+  // Default Types for new documents
+  (CONFIG.Actor as any).defaultType = 'character';
+  (CONFIG.Item as any).defaultType = 'card';
+
   // Register ApplicationV2 Sheets
-  const ActorsSheetAny = (foundry.applications.sheets as any).ActorSheetV2 || (Actors as any).unregisterSheet;
-  if (Actors.unregisterSheet) {
-    Actors.unregisterSheet('core', ActorSheet);
-  }
   Actors.registerSheet('bardamigo', BarDaMIgoActorSheet, {
     types: ['character'],
     makeDefault: true,
@@ -44,9 +53,6 @@ Hooks.once('init', async () => {
     label: 'BARDAMIGO.NPC'
   });
 
-  if (Items.unregisterSheet) {
-    Items.unregisterSheet('core', ItemSheet);
-  }
   Items.registerSheet('bardamigo', BarDaMIgoCardSheet, {
     types: ['card'],
     makeDefault: true,
@@ -61,6 +67,10 @@ Hooks.once('init', async () => {
 
   Handlebars.registerHelper('eq', function (a: any, b: any) {
     return a === b;
+  });
+
+  Handlebars.registerHelper('ne', function (a: any, b: any) {
+    return a !== b;
   });
 
   // Preload templates

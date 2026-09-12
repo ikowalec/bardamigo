@@ -67,19 +67,22 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
     };
   }
 
-  override prepareDerivedData() {
-    // Calculated Defense = 10 + Agility + Card / Gear bonus
-    const zrecznosc = this.attributes.zrecznosc.value || 0;
-    this.defense = 10 + zrecznosc + (this.combat.bonusDefense || 0);
+  get defense(): number {
+    const zrecznosc = (this as any).attributes?.zrecznosc?.value ?? 0;
+    return 10 + zrecznosc + ((this as any).combat?.bonusDefense ?? 0);
+  }
 
-    // Calculated Hit Limit = Base 3 (+1 if Strength >= 3) + Development / Item bonuses (max 5)
-    const sila = this.attributes.sila.value || 0;
+  get hitLimit(): number {
+    const sila = (this as any).attributes?.sila?.value ?? 0;
     const strengthBonus = sila >= 3 ? 1 : 0;
-    this.hitLimit = Math.min(5, 3 + strengthBonus + (this.combat.bonusHitLimit || 0));
+    return Math.min(5, 3 + strengthBonus + ((this as any).combat?.bonusHitLimit ?? 0));
+  }
 
+  override prepareDerivedData() {
     // Auto-update Downed condition if hits reach or exceed limit
-    if (this.combat.hits >= this.hitLimit && this.hitLimit > 0) {
-      this.conditions.downed = true;
+    const self = this as any;
+    if (self.combat.hits >= this.hitLimit && this.hitLimit > 0) {
+      self.conditions.downed = true;
     }
   }
 }

@@ -18,6 +18,15 @@
   "styles": [
     "styles/bardamigo.css"
   ],
+  "documentTypes": {
+    "Actor": {
+      "character": {},
+      "npc": {}
+    },
+    "Item": {
+      "card": {}
+    }
+  },
   "languages": [
     {
       "lang": "en",
@@ -31,8 +40,8 @@
     }
   ],
   "packs": [],
-  "url": "https://github.com/your-username/bardamigo",
-  "manifest": "https://github.com/your-username/bardamigo/releases/latest/download/system.json",
-  "download": "https://github.com/your-username/bardamigo/releases/latest/download/bardamigo.zip",
+  "url": "https://github.com/ikowalec/bardamigo",
+  "manifest": "https://github.com/ikowalec/bardamigo/releases/latest/download/system.json",
+  "download": "https://github.com/ikowalec/bardamigo/releases/latest/download/bardamigo.zip",
   "license": "LICENSE"
 }
