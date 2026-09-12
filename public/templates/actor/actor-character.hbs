@@ -1,0 +1,344 @@
+<div class="bardamigo-sheet-container">
+  <div class="frame">
+    <span class="corner tl">❧</span><span class="corner tr">❧</span>
+    <span class="corner bl">❧</span><span class="corner br">❧</span>
+
+    {{!-- Header --}}
+    <header class="sheet-top-header">
+      <div class="logotyp"><span class="miecz">⚔</span>{{localize "BARDAMIGO.Title"}}<span class="miecz">⚔</span></div>
+      <div class="podtytul">{{localize "BARDAMIGO.Character"}}</div>
+      <div class="separator"><span>✦ ❧ ✦</span></div>
+    </header>
+
+    <div class="karta-content">
+      {{!-- Character Info --}}
+      <section class="sekcja character-details">
+        <div class="rzad">
+          <div class="avatar-box">
+            <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+          </div>
+          <div class="fields-col flex2">
+            <div class="pole">
+              <span class="etykieta">{{localize "Name"}}:</span>
+              <input name="name" type="text" value="{{actor.name}}" placeholder="Character Name" />
+            </div>
+            <div class="pole">
+              <span class="etykieta">{{localize "BARDAMIGO.Concept"}}:</span>
+              <input name="system.concept" type="text" value="{{system.concept}}" placeholder="{{localize 'BARDAMIGO.ConceptPlaceholder'}}" />
+            </div>
+            <div class="rzad" style="margin-bottom:0;">
+              <div class="pole">
+                <span class="etykieta">{{localize "BARDAMIGO.Goal"}}:</span>
+                <input name="system.goal" type="text" value="{{system.goal}}" />
+              </div>
+              <div class="pole">
+                <span class="etykieta">Player:</span>
+                <input name="system.player" type="text" value="{{system.player}}" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {{!-- Attributes & Combat Section --}}
+      <div class="rzad">
+        {{!-- Attributes Table --}}
+        <section class="sekcja atrybuty flex1">
+          <h3>{{localize "BARDAMIGO.Attributes.Label"}}</h3>
+          <table>
+            <tr>
+              <td>
+                <button type="button" class="roll-btn" data-action="rollAttribute" data-attribute="sila" title="{{localize 'BARDAMIGO.Attributes.Strength'}}">
+                  <i class="fas fa-dice-d20"></i> <span class="nazwa">{{localize "BARDAMIGO.Attributes.Strength"}}</span>
+                </button>
+                <span class="opis">{{localize "BARDAMIGO.Attributes.StrengthDesc"}}</span>
+              </td>
+              <td class="wartosc">
+                <input type="number" name="system.attributes.sila.value" value="{{system.attributes.sila.value}}" data-dtype="Number" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <button type="button" class="roll-btn" data-action="rollAttribute" data-attribute="zrecznosc" title="{{localize 'BARDAMIGO.Attributes.Agility'}}">
+                  <i class="fas fa-dice-d20"></i> <span class="nazwa">{{localize "BARDAMIGO.Attributes.Agility"}}</span>
+                </button>
+                <span class="opis">{{localize "BARDAMIGO.Attributes.AgilityDesc"}}</span>
+              </td>
+              <td class="wartosc">
+                <input type="number" name="system.attributes.zrecznosc.value" value="{{system.attributes.zrecznosc.value}}" data-dtype="Number" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <button type="button" class="roll-btn" data-action="rollAttribute" data-attribute="umysl" title="{{localize 'BARDAMIGO.Attributes.Mind'}}">
+                  <i class="fas fa-dice-d20"></i> <span class="nazwa">{{localize "BARDAMIGO.Attributes.Mind"}}</span>
+                </button>
+                <span class="opis">{{localize "BARDAMIGO.Attributes.MindDesc"}}</span>
+              </td>
+              <td class="wartosc">
+                <input type="number" name="system.attributes.umysl.value" value="{{system.attributes.umysl.value}}" data-dtype="Number" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <button type="button" class="roll-btn" data-action="rollAttribute" data-attribute="wola" title="{{localize 'BARDAMIGO.Attributes.Will'}}">
+                  <i class="fas fa-dice-d20"></i> <span class="nazwa">{{localize "BARDAMIGO.Attributes.Will"}}</span>
+                </button>
+                <span class="opis">{{localize "BARDAMIGO.Attributes.WillDesc"}}</span>
+              </td>
+              <td class="wartosc">
+                <input type="number" name="system.attributes.wola.value" value="{{system.attributes.wola.value}}" data-dtype="Number" />
+              </td>
+            </tr>
+          </table>
+          <div class="przypominajka">{{localize "BARDAMIGO.Attributes.Reminder"}}</div>
+        </section>
+
+        {{!-- Combat Overview --}}
+        <section class="sekcja combat-overview flex1">
+          <h3>{{localize "BARDAMIGO.Combat.Label"}}</h3>
+          <div class="stat-row">
+            <span class="etykieta">{{localize "BARDAMIGO.Combat.Defense"}}:</span>
+            <span class="stat-value highlight">{{system.defense}}</span>
+            <span class="formula-hint">{{localize "BARDAMIGO.Combat.DefenseFormula"}}</span>
+          </div>
+          <div class="stat-row">
+            <span class="etykieta">{{localize "BARDAMIGO.Combat.HitLimit"}}:</span>
+            <span class="stat-value highlight">{{system.hitLimit}}</span>
+            <span class="formula-hint">{{localize "BARDAMIGO.Combat.HitLimitFormula"}}</span>
+          </div>
+          <div class="stat-row">
+            <span class="etykieta">{{localize "BARDAMIGO.Combat.Initiative"}}:</span>
+            <input type="number" name="system.combat.bonusInitiative" value="{{system.combat.bonusInitiative}}" data-dtype="Number" />
+          </div>
+          <div class="stat-row checkbox-row">
+            <label class="determination-label">
+              <input type="checkbox" name="system.combat.determination" {{checked system.combat.determination}} />
+              <strong>{{localize "BARDAMIGO.Combat.Determination"}}</strong>
+            </label>
+            <span class="formula-hint">{{localize "BARDAMIGO.Combat.DeterminationDesc"}}</span>
+          </div>
+          <div class="rest-actions">
+            <button type="button" class="rest-btn" data-action="shortRest" title="{{localize 'BARDAMIGO.Rest.ShortRestDesc'}}">
+              <i class="fas fa-campground"></i> {{localize "BARDAMIGO.Rest.ShortRest"}}
+            </button>
+            <button type="button" class="rest-btn" data-action="longRest" title="{{localize 'BARDAMIGO.Rest.LongRestDesc'}}">
+              <i class="fas fa-bed"></i> {{localize "BARDAMIGO.Rest.LongRest"}}
+            </button>
+          </div>
+        </section>
+      </div>
+
+      {{!-- Hits Tracker (Trafienia) --}}
+      <section class="sekcja hits-section">
+        <h3>{{localize "BARDAMIGO.Combat.Hits"}} ({{system.combat.hits}} / {{system.hitLimit}})</h3>
+        <div class="kratki">
+          {{#each hitBoxes as |box|}}
+            <div class="kratka {{#if box.isWithinLimit}}within-limit{{else}}beyond-limit{{/if}}">
+              <div class="box {{#if box.isFilled}}filled{{/if}}">
+                {{#if box.isFilled}}<i class="fas fa-times"></i>{{/if}}
+              </div>
+              <div class="nr">{{box.number}}</div>
+            </div>
+          {{/each}}
+        </div>
+        <div class="hits-control-row">
+          <label>{{localize "BARDAMIGO.Combat.Hits"}}:</label>
+          <input type="number" name="system.combat.hits" value="{{system.combat.hits}}" min="0" max="8" data-dtype="Number" />
+          <span class="przypominajka">{{localize "BARDAMIGO.Combat.HitsWarning"}}</span>
+        </div>
+      </section>
+
+      {{!-- Active Cards Section --}}
+      <div class="rzad">
+        <section class="sekcja active-cards flex1">
+          <div class="section-header-flex">
+            <h3>{{localize "BARDAMIGO.Cards.Active"}}</h3>
+            <button type="button" class="add-card-btn" data-action="createCard" data-slot="any">
+              <i class="fas fa-plus"></i> {{localize "BARDAMIGO.Cards.Add"}}
+            </button>
+          </div>
+          <table class="cards-table">
+            <thead>
+              <tr>
+                <th style="width: 22%;">{{localize "BARDAMIGO.Cards.Slot"}}</th>
+                <th>{{localize "BARDAMIGO.Cards.Name"}}</th>
+                <th style="width: 22%;">{{localize "BARDAMIGO.Cards.Type"}}</th>
+                <th style="width: 15%;"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each activeCards as |card|}}
+                <tr data-card-id="{{card._id}}">
+                  <td class="slot-name"><span class="slot-tag">{{card.system.slot}}</span></td>
+                  <td class="card-name-cell">
+                    <img src="{{card.img}}" width="20" height="20" />
+                    <strong>{{card.name}}</strong>
+                  </td>
+                  <td>{{card.system.cardType}}</td>
+                  <td class="card-actions">
+                    <a data-action="editCard" data-card-id="{{card._id}}" title="{{localize 'BARDAMIGO.Cards.Edit'}}"><i class="fas fa-edit"></i></a>
+                    <a data-action="deleteCard" data-card-id="{{card._id}}" title="{{localize 'BARDAMIGO.Cards.Delete'}}"><i class="fas fa-trash"></i></a>
+                  </td>
+                </tr>
+              {{else}}
+                <tr>
+                  <td colspan="4" class="empty-notice">{{localize "BARDAMIGO.Cards.Empty"}}</td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+          <div class="przypominajka">{{localize "BARDAMIGO.Cards.DevelopmentHint"}}</div>
+        </section>
+
+        {{!-- Backpack & Extra Cards --}}
+        <section class="sekcja backpack-cards flex1">
+          <div class="section-header-flex">
+            <h3>{{localize "BARDAMIGO.Cards.Backpack"}}</h3>
+            <button type="button" class="add-card-btn" data-action="createCard" data-slot="backpack">
+              <i class="fas fa-plus"></i> {{localize "BARDAMIGO.Cards.Add"}}
+            </button>
+          </div>
+          <table class="cards-table">
+            <thead>
+              <tr>
+                <th>{{localize "BARDAMIGO.Cards.Name"}}</th>
+                <th style="width: 25%;">{{localize "BARDAMIGO.Cards.Type"}}</th>
+                <th style="width: 15%;"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each backpackCards as |card|}}
+                <tr data-card-id="{{card._id}}">
+                  <td class="card-name-cell">
+                    <img src="{{card.img}}" width="20" height="20" />
+                    <strong>{{card.name}}</strong>
+                  </td>
+                  <td>{{card.system.cardType}}</td>
+                  <td class="card-actions">
+                    <a data-action="editCard" data-card-id="{{card._id}}"><i class="fas fa-edit"></i></a>
+                    <a data-action="deleteCard" data-card-id="{{card._id}}"><i class="fas fa-trash"></i></a>
+                  </td>
+                </tr>
+              {{else}}
+                <tr>
+                  <td colspan="3" class="empty-notice">{{localize "BARDAMIGO.Cards.Empty"}}</td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </section>
+      </div>
+
+      {{!-- Defense Rolls & Conditions --}}
+      <div class="rzad">
+        <section class="sekcja defense-rolls flex1">
+          <h3>{{localize "BARDAMIGO.DefenseRolls.Label"}}</h3>
+          <table class="defense-table">
+            <thead>
+              <tr>
+                <th>{{localize "BARDAMIGO.DefenseRolls.Source"}}</th>
+                <th style="width: 22%;">{{localize "BARDAMIGO.DefenseRolls.Die"}}</th>
+                <th style="width: 24%;"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each defenseItems as |item|}}
+                <tr>
+                  <td><strong>{{item.name}}</strong></td>
+                  <td>{{item.system.defenseDie}}</td>
+                  <td>
+                    <button type="button" class="roll-defense-btn" data-action="rollDefense" data-die="{{item.system.defenseDie}}" data-source="{{item.name}}">
+                      <i class="fas fa-shield-alt"></i> {{localize "BARDAMIGO.DefenseRolls.RollButton"}}
+                    </button>
+                  </td>
+                </tr>
+              {{else}}
+                <tr>
+                  <td colspan="3" class="empty-notice">No protection cards equipped.</td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+          <div class="przypominajka">{{localize "BARDAMIGO.DefenseRolls.Hint"}}</div>
+
+          <h3 style="margin-top: 10px;">{{localize "BARDAMIGO.Development.Label"}}</h3>
+          <div class="pole">
+            <span class="etykieta">{{localize "BARDAMIGO.Development.Points"}} (PR):</span>
+            <input type="number" name="system.development.points" value="{{system.development.points}}" min="0" max="8" data-dtype="Number" />
+          </div>
+          <div class="przypominajka">{{localize "BARDAMIGO.Development.Hint"}}</div>
+        </section>
+
+        {{!-- Conditions & Resources --}}
+        <section class="sekcja conditions-resources flex1">
+          <h3>{{localize "BARDAMIGO.Conditions.Label"}}</h3>
+          <div class="checkboxy">
+            <label class="check">
+              <input type="checkbox" name="system.conditions.downed" {{checked system.conditions.downed}} />
+              <span class="nazwa-stanu">{{localize "BARDAMIGO.Conditions.Downed"}}</span>
+            </label>
+            <label class="check">
+              <input type="checkbox" name="system.conditions.stunned" {{checked system.conditions.stunned}} />
+              <span class="nazwa-stanu">{{localize "BARDAMIGO.Conditions.Stunned"}}</span>
+            </label>
+            <label class="check">
+              <input type="checkbox" name="system.conditions.exposed" {{checked system.conditions.exposed}} />
+              <span class="nazwa-stanu">{{localize "BARDAMIGO.Conditions.Exposed"}}</span>
+            </label>
+            <label class="check">
+              <input type="checkbox" name="system.conditions.burning" {{checked system.conditions.burning}} />
+              <span class="nazwa-stanu">{{localize "BARDAMIGO.Conditions.Burning"}}</span>
+            </label>
+            <label class="check">
+              <input type="checkbox" name="system.conditions.frightened" {{checked system.conditions.frightened}} />
+              <span class="nazwa-stanu">{{localize "BARDAMIGO.Conditions.Frightened"}}</span>
+            </label>
+            <label class="check">
+              <input type="checkbox" name="system.conditions.poisoned" {{checked system.conditions.poisoned}} />
+              <span class="nazwa-stanu">{{localize "BARDAMIGO.Conditions.Poisoned"}}</span>
+            </label>
+          </div>
+
+          <h3 style="margin-top: 10px;">{{localize "BARDAMIGO.Resources.Label"}}</h3>
+          <div class="resources-grid">
+            <div class="pole">
+              <span class="etykieta">{{localize "BARDAMIGO.Resources.Gold"}}:</span>
+              <input type="number" name="system.resources.gold" value="{{system.resources.gold}}" data-dtype="Number" />
+            </div>
+            <div class="pole">
+              <span class="etykieta">{{localize "BARDAMIGO.Resources.Supplies"}}:</span>
+              <input type="number" name="system.resources.supplies" value="{{system.resources.supplies}}" data-dtype="Number" />
+            </div>
+            <div class="pole">
+              <span class="etykieta">{{localize "BARDAMIGO.Resources.Materials"}}:</span>
+              <input type="number" name="system.resources.materials" value="{{system.resources.materials}}" data-dtype="Number" />
+            </div>
+            <div class="pole">
+              <span class="etykieta">{{localize "BARDAMIGO.Resources.Ingredients"}}:</span>
+              <input type="number" name="system.resources.ingredients" value="{{system.resources.ingredients}}" data-dtype="Number" />
+            </div>
+          </div>
+          <div class="pole" style="margin-top: 5px;">
+            <span class="etykieta">{{localize "BARDAMIGO.Resources.Reputation"}}:</span>
+            <input type="text" name="system.resources.reputation" value="{{system.resources.reputation}}" />
+          </div>
+        </section>
+      </div>
+
+      {{!-- Notes Section --}}
+      <section class="sekcja notes-section">
+        <h3>{{localize "BARDAMIGO.Notes"}}</h3>
+        <div class="przypominajka" style="text-align:left; margin-bottom: 5px;">{{localize "BARDAMIGO.NotesHint"}}</div>
+        {{editor system.notes target="system.notes" button=true owner=isOwner editable=editable engine="prosemirror"}}
+      </section>
+
+      {{!-- Turn Reminder Banner --}}
+      <footer class="tura">
+        <div class="naglowek"><span class="znak">⚔</span>{{localize "BARDAMIGO.TurnInfo.Header"}}<span class="znak">⚔</span></div>
+        <p>{{localize "BARDAMIGO.TurnInfo.Actions"}}</p>
+        <p class="pytanie">{{localize "BARDAMIGO.TurnInfo.Question"}}</p>
+      </footer>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,100 @@
+<div class="bardamigo-sheet-container item-sheet">
+  <div class="frame">
+    <span class="corner tl">❧</span><span class="corner tr">❧</span>
+    <span class="corner bl">❧</span><span class="corner br">❧</span>
+
+    <header class="sheet-top-header">
+      <div class="logotyp"><span class="miecz">⚔</span>{{localize "BARDAMIGO.Title"}}<span class="miecz">⚔</span></div>
+      <div class="podtytul">{{localize "BARDAMIGO.Card"}}</div>
+      <div class="separator"><span>✦ ❧ ✦</span></div>
+    </header>
+
+    <div class="karta-content">
+      <section class="sekcja item-header-details">
+        <div class="rzad">
+          <div class="avatar-box">
+            <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+          </div>
+          <div class="fields-col flex2">
+            <div class="pole">
+              <span class="etykieta">{{localize "Name"}}:</span>
+              <input name="name" type="text" value="{{item.name}}" />
+            </div>
+            <div class="rzad" style="margin-bottom: 0;">
+              <div class="pole">
+                <span class="etykieta">{{localize "BARDAMIGO.Cards.Type"}}:</span>
+                <select name="system.cardType">
+                  {{#each cardTypes as |label key|}}
+                    <option value="{{key}}" {{#if (eq ../system.cardType key)}}selected{{/if}}>{{localize label}}</option>
+                  {{/each}}
+                </select>
+              </div>
+              <div class="pole">
+                <span class="etykieta">{{localize "BARDAMIGO.Cards.Slot"}}:</span>
+                <select name="system.slot">
+                  {{#each slots as |label key|}}
+                    <option value="{{key}}" {{#if (eq ../system.slot key)}}selected{{/if}}>{{localize label}}</option>
+                  {{/each}}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {{!-- Item Stats --}}
+      <section class="sekcja item-stats">
+        <div class="rzad">
+          <div class="pole">
+            <span class="etykieta">Attribute:</span>
+            <select name="system.attribute">
+              {{#each attributes as |label key|}}
+                <option value="{{key}}" {{#if (eq ../system.attribute key)}}selected{{/if}}>{{localize label}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="pole">
+            <span class="etykieta">Damage (Hits):</span>
+            <input type="number" name="system.damageHits" value="{{system.damageHits}}" data-dtype="Number" />
+          </div>
+          <div class="pole">
+            <span class="etykieta">{{localize "BARDAMIGO.Resources.Gold"}} (zł):</span>
+            <input type="number" name="system.cost" value="{{system.cost}}" data-dtype="Number" />
+          </div>
+        </div>
+
+        <div class="rzad" style="margin-top: 8px;">
+          <div class="pole">
+            <span class="etykieta">{{localize "BARDAMIGO.DefenseRolls.Die"}}:</span>
+            <select name="system.defenseDie">
+              {{#each defenseDice as |label key|}}
+                <option value="{{key}}" {{#if (eq ../system.defenseDie key)}}selected{{/if}}>{{label}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="pole flex2">
+            <span class="etykieta">{{localize "BARDAMIGO.DefenseRolls.Trigger"}}:</span>
+            <input type="text" name="system.defenseTrigger" value="{{system.defenseTrigger}}" placeholder="e.g. Against melee attacks" />
+          </div>
+        </div>
+
+        <div class="rzad" style="margin-top: 8px;">
+          <div class="pole">
+            <span class="etykieta">+Defense:</span>
+            <input type="number" name="system.bonusDefense" value="{{system.bonusDefense}}" data-dtype="Number" />
+          </div>
+          <div class="pole">
+            <span class="etykieta">+Initiative:</span>
+            <input type="number" name="system.bonusInitiative" value="{{system.bonusInitiative}}" data-dtype="Number" />
+          </div>
+        </div>
+      </section>
+
+      {{!-- Description --}}
+      <section class="sekcja item-description">
+        <h3>{{localize "BARDAMIGO.Description"}}</h3>
+        {{editor system.description target="system.description" button=true owner=isOwner editable=editable engine="prosemirror"}}
+      </section>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>BarDaMIgo - Prosty System RPG — Zasady i Karta Postaci</title>
+<style>
+  :root{
+    --ink:#2b1d0e;
+    --ink-soft:#4a3319;
+    --sepia:#6b4a24;
+    --line:#7a5c33;
+    --parchment:#f3e7cb;
+    --parchment-dark:#e8d7ae;
+    --box:#efe0bd;
+
+    --font-display:"Palatino Linotype","Book Antiqua",Palatino,Georgia,serif;
+    --font-body:Georgia,"Times New Roman",serif;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  @page{ size:A4; margin:0; }
+
+  html,body{
+    background:#8c7a5a;
+    font-family:var(--font-body);
+    color:var(--ink);
+  }
+
+  .page{
+    width:210mm;
+    height:297mm;
+    margin:0 auto;
+    padding:7mm;
+    background:
+      radial-gradient(ellipse at 18% 12%, rgba(255,250,230,.55), transparent 55%),
+      radial-gradient(ellipse at 82% 88%, rgba(120,85,40,.16), transparent 55%),
+      radial-gradient(ellipse at 70% 20%, rgba(120,85,40,.10), transparent 50%),
+      linear-gradient(160deg, var(--parchment) 0%, var(--parchment-dark) 100%);
+    page-break-after:always;
+    overflow:hidden;
+    position:relative;
+  }
+  .page:last-child{ page-break-after:auto; }
+
+  .frame{
+    height:100%;
+    border:2px solid var(--sepia);
+    outline:1px solid var(--line);
+    outline-offset:-5px;
+    padding:4mm 5mm 3mm;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+  }
+  .corner{
+    position:absolute;
+    font-size:10pt;
+    color:var(--sepia);
+    line-height:1;
+  }
+  .corner.tl{ top:1mm; left:1.4mm; }
+  .corner.tr{ top:1mm; right:1.4mm; transform:scaleX(-1); }
+  .corner.bl{ bottom:1mm; left:1.4mm; transform:scaleY(-1); }
+  .corner.br{ bottom:1mm; right:1.4mm; transform:scale(-1,-1); }
+
+  /* ---------- NAGŁÓWEK WSPÓLNY ---------- */
+  header.tytul{ text-align:center; margin-bottom:1.8mm; flex:none; }
+  .logotyp{
+    font-family:var(--font-display);
+    font-weight:bold;
+    font-size:16.5pt;
+    letter-spacing:2px;
+    line-height:1;
+    color:var(--ink);
+  }
+  .logotyp .miecz{
+    font-size:10pt;
+    color:var(--sepia);
+    vertical-align:2pt;
+    padding:0 2mm;
+  }
+  .nadtytul{
+    font-family:var(--font-display);
+    font-variant:small-caps;
+    font-size:7pt;
+    letter-spacing:3.5px;
+    color:var(--sepia);
+    margin-bottom:.6mm;
+  }
+  .podtytul{
+    font-family:var(--font-display);
+    font-variant:small-caps;
+    font-size:9pt;
+    letter-spacing:2px;
+    color:var(--ink-soft);
+    margin-top:.8mm;
+  }
+  .separator{
+    display:flex;
+    align-items:center;
+    gap:2mm;
+    margin-top:1mm;
+  }
+  .separator::before,
+  .separator::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:linear-gradient(90deg, transparent, var(--line));
+  }
+  .separator::after{
+    background:linear-gradient(90deg, var(--line), transparent);
+  }
+  .separator span{
+    font-size:7pt;
+    color:var(--sepia);
+    letter-spacing:2px;
+  }
+
+  footer.stopka{
+    margin-top:1.2mm;
+    padding-top:.8mm;
+    border-top:1px solid var(--line);
+    text-align:center;
+    font-family:var(--font-display);
+    font-variant:small-caps;
+    font-size:6.2pt;
+    letter-spacing:1.8px;
+    color:var(--ink-soft);
+    flex:none;
+  }
+
+  /* ---------- STRONA 1: ZASADY ---------- */
+  .zasady{
+    column-count:2;
+    column-gap:5mm;
+    column-rule:1px solid var(--line);
+    font-size:6.75pt;
+    line-height:1.24;
+    flex:1;
+    overflow:hidden;
+  }
+  .zasady section{ break-inside:avoid; margin-bottom:1.3mm; }
+  .zasady h2{
+    font-family:var(--font-display);
+    font-variant:small-caps;
+    font-size:7.9pt;
+    letter-spacing:.7px;
+    color:var(--ink);
+    border-bottom:1px solid var(--line);
+    padding-bottom:.3mm;
+    margin-bottom:.6mm;
+    display:flex;
+    align-items:baseline;
+    gap:1.2mm;
+  }
+  .zasady h2 .znak{
+    color:var(--sepia);
+    font-size:6.4pt;
+    flex:none;
+  }
+  .zasady h2 .numer{
+    margin-left:auto;
+    color:var(--sepia);
+    font-size:6.2pt;
+    letter-spacing:1px;
+    font-variant:normal;
+  }
+  .zasady p{ margin-bottom:.55mm; text-align:justify; hyphens:auto; }
+  .zasady ul{ margin:.25mm 0 .6mm 0; list-style:none; }
+  .zasady li{
+    margin-bottom:.2mm;
+    padding-left:2.9mm;
+    position:relative;
+  }
+  .zasady li::before{
+    content:"✦";
+    position:absolute;
+    left:0;
+    top:0;
+    font-size:5pt;
+    color:var(--sepia);
+  }
+  .zasady strong{ color:var(--ink); }
+  .formula{
+    display:block;
+    text-align:center;
+    font-family:var(--font-display);
+    background:var(--box);
+    border:1px solid var(--line);
+    border-left:2px solid var(--sepia);
+    border-right:2px solid var(--sepia);
+    padding:.5mm 1mm;
+    margin:.5mm 0 .6mm;
+    font-weight:bold;
+    font-size:6.9pt;
+    letter-spacing:.2px;
+  }
+  .motto{
+    border:1.5px solid var(--sepia);
+    outline:1px solid var(--line);
+    outline-offset:1px;
+    background:var(--box);
+    text-align:center;
+    padding:1mm;
+    font-style:italic;
+  }
+  .motto .znak{ color:var(--sepia); font-style:normal; letter-spacing:2px; font-size:6pt; }
+  .motto strong{
+    font-style:normal;
+    font-family:var(--font-display);
+    font-size:7.9pt;
+    letter-spacing:.4px;
+  }
+
+  /* ---------- STRONA 2: KARTA POSTACI ---------- */
+  .karta{ flex:1; display:flex; flex-direction:column; font-size:7pt; overflow:hidden; }
+  .sekcja{
+    border:1.5px solid var(--sepia);
+    background:rgba(255,250,235,.35);
+    padding:1.3mm 1.8mm;
+    margin-bottom:1.6mm;
+  }
+  .rzad > .sekcja{ margin-bottom:0; }
+  .rzad{ display:flex; gap:1.6mm; margin-bottom:1.6mm; }
+  .rzad:last-child{ margin-bottom:0; }
+  .rzad > *{ flex:1; }
+  .rzad .rzad{ margin-bottom:0; }
+
+  .sekcja h3{
+    font-family:var(--font-display);
+    font-variant:small-caps;
+    font-size:7.7pt;
+    letter-spacing:.9px;
+    color:var(--ink);
+    margin-bottom:.8mm;
+    display:flex;
+    align-items:baseline;
+    gap:1.2mm;
+  }
+  .sekcja h3::before{
+    content:"✦";
+    color:var(--sepia);
+    font-size:6pt;
+  }
+  .sekcja h3::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:linear-gradient(90deg, var(--line), transparent);
+    align-self:center;
+  }
+
+  .pole{ display:flex; align-items:flex-end; gap:1.4mm; margin-bottom:1mm; }
+  .pole:last-child{ margin-bottom:0; }
+  .pole .etykieta{
+    white-space:nowrap;
+    font-weight:bold;
+    font-variant:small-caps;
+    font-family:var(--font-display);
+    font-size:6.9pt;
+    letter-spacing:.3px;
+  }
+  .pole .linia{ flex:1; border-bottom:1px solid var(--ink-soft); height:3.6mm; }
+
+  table{ width:100%; border-collapse:collapse; }
+  th,td{ border:1px solid var(--line); padding:.6mm 1mm; text-align:left; }
+  th{
+    background:var(--box);
+    font-family:var(--font-display);
+    font-variant:small-caps;
+    font-weight:bold;
+    font-size:6.8pt;
+    letter-spacing:.5px;
+  }
+  td{ height:4.6mm; }
+  td.waska{ width:12mm; text-align:center; }
+  td .slot-nazwa{
+    font-family:var(--font-display);
+    font-variant:small-caps;
+    font-weight:bold;
+    letter-spacing:.3px;
+  }
+  td .slot-znak{ color:var(--sepia); font-size:6pt; }
+
+  .atrybuty td.wartosc{ width:14mm; height:6.6mm; text-align:center; font-size:10pt; }
+  .atrybuty .nazwa{
+    font-family:var(--font-display);
+    font-variant:small-caps;
+    font-weight:bold;
+    font-size:7.4pt;
+    letter-spacing:.4px;
+  }
+  .atrybuty .opis{ font-size:6.1pt; font-style:italic; color:var(--ink-soft); }
+  .przypominajka{
+    text-align:center; font-style:italic; font-size:6.3pt;
+    color:var(--ink-soft); margin-top:.6mm;
+  }
+
+  .kratki{ display:flex; gap:1.6mm; justify-content:space-between; margin:.6mm 0 .2mm; }
+  .kratka{ text-align:center; flex:1; }
+  .kratka .box{
+    width:5.8mm; height:5.8mm;
+    border:1.5px solid var(--ink-soft);
+    margin:0 auto .3mm;
+    background:rgba(255,252,242,.6);
+  }
+  .kratka .nr{
+    font-family:var(--font-display);
+    font-size:6.2pt;
+    color:var(--ink-soft);
+  }
+
+  .checkboxy{ display:flex; flex-wrap:wrap; gap:.8mm 2.6mm; }
+  .check{ display:flex; align-items:center; gap:1.1mm; }
+  .check .cb{
+    width:3mm; height:3mm;
+    border:1.2px solid var(--ink-soft);
+    background:rgba(255,252,242,.6);
+    flex:none;
+  }
+  .check .lin{ border-bottom:1px solid var(--ink-soft); width:16mm; height:2.8mm; }
+  .check .nazwa-stanu{
+    font-family:var(--font-display);
+    font-variant:small-caps;
+    letter-spacing:.3px;
+  }
+
+  .mini-kratki{ display:flex; gap:1.2mm; align-items:center; }
+  .mini-kratki .box{
+    width:3.8mm; height:3.8mm;
+    border:1.3px solid var(--ink-soft);
+    background:rgba(255,252,242,.6);
+  }
+  .mini-kratki .etykieta{
+    font-family:var(--font-display);
+    font-weight:bold;
+    font-variant:small-caps;
+    letter-spacing:.3px;
+    margin-right:.5mm;
+  }
+
+  .notatki-linie{ margin-top:.5mm; }
+  .notatki-linie div{ border-bottom:1px solid rgba(90,64,32,.55); height:4mm; }
+
+  .tura{
+    border:2px solid var(--sepia);
+    outline:1px solid var(--line);
+    outline-offset:1px;
+    background:var(--box);
+    text-align:center;
+    padding:1mm 1.8mm;
+    flex:none;
+  }
+  .tura .naglowek{
+    font-family:var(--font-display);
+    font-variant:small-caps;
+    font-weight:bold;
+    font-size:7.8pt;
+    letter-spacing:1.1px;
+  }
+  .tura .naglowek .znak{ color:var(--sepia); padding:0 1.4mm; }
+  .tura p{ font-size:6.3pt; margin-top:.3mm; }
+  .tura .pytanie{
+    font-style:italic;
+    font-weight:bold;
+    font-size:7pt;
+    font-family:var(--font-display);
+  }
+
+  @media print{
+    html,body{ background:#fff; }
+    .page{ margin:0; box-shadow:none; }
+    :root{ --parchment:#f6ecd6; --parchment-dark:#efe1bf; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ STRONA 1 — ZASADY ============ -->
+<div class="page">
+  <div class="frame">
+    <span class="corner tl">❧</span><span class="corner tr">❧</span>
+    <span class="corner bl">❧</span><span class="corner br">❧</span>
+
+    <header class="tytul">
+      <div class="nadtytul">Prosty System RPG</div>
+      <div class="logotyp"><span class="miecz">⚔</span>BarDaMIgo<span class="miecz">⚔</span></div>
+      <div class="podtytul">Zasady Gry</div>
+      <div class="separator"><span>✦ ❧ ✦</span></div>
+    </header>
+
+    <div class="zasady">
+
+      <section>
+        <h2><span class="znak">❖</span>Założenie<span class="numer">I</span></h2>
+        <p>Prosta gra RPG fantasy z elementami gry bitewnej. Tworzysz bohatera, wykonujesz misje, walczysz i zdobywasz karty ekwipunku. Nie ma klas — rola wynika z atrybutów, decyzji i kart. Możesz być wojownikiem, magiem, łowcą, złodziejem albo kimkolwiek chcesz.</p>
+      </section>
+
+      <section>
+        <h2><span class="znak">❖</span>Bohater<span class="numer">II</span></h2>
+        <p>Rozdziel <strong>+3, +2, +1, +0</strong> między atrybuty:</p>
+        <ul>
+          <li><strong>Siła</strong> — walka wręcz, dźwiganie, wytrzymałość.</li>
+          <li><strong>Zręczność</strong> — uniki, skradanie, strzelanie, inicjatywa.</li>
+          <li><strong>Umysł</strong> — wiedza, magia, technika, taktyka.</li>
+          <li><strong>Wola</strong> — odwaga, charyzma, wiara, koncentracja.</li>
+        </ul>
+        <p>Na start: <strong>1 karta broni, 1 karta ochrony, 2 dowolne karty</strong>.</p>
+        <p><strong>Determinacja (1/misję):</strong> przerzuć dowolny swój rzut <em>albo</em> zignoruj 1 trafienie. Wraca po długim odpoczynku.</p>
+      </section>
+
+      <section>
+        <h2><span class="znak">❖</span>Zasada podstawowa<span class="numer">III</span></h2>
+        <span class="formula">k20 + pasujący atrybut ≥ trudność</span>
+        <p>Trudności: <strong>10</strong> łatwe · <strong>14</strong> normalne · <strong>18</strong> trudne · <strong>22</strong> heroiczne.</p>
+        <ul>
+          <li><strong>Wynik ≥ trudność</strong> — sukces.</li>
+          <li><strong>Porażka o 1–2</strong> — sukces z kosztem (MG podaje cenę).</li>
+          <li><strong>Naturalne 20</strong> — wielki sukces, dodatkowa korzyść.</li>
+          <li><strong>Naturalne 1</strong> — komplikacja.</li>
+        </ul>
+        <p><strong>Test sporny:</strong> obie strony rzucają k20 + atrybut; wyższy wygrywa, remis dla broniącego się.</p>
+      </section>
+
+      <section>
+        <h2><span class="znak">❖</span>Przewaga i utrudnienie<span class="numer">IV</span></h2>
+        <p>Jedyny modyfikator sytuacyjny w grze. <strong>Przewaga:</strong> rzuć 2k20, wybierz lepszy. <strong>Utrudnienie:</strong> rzuć 2k20, wybierz gorszy. Nie sumują się; razem znoszą się. Dają je: pozycja, ukrycie, zaskoczenie, ciemność, stany, pomoc, teren. Stałe premie liczbowe pochodzą tylko z kart.</p>
+      </section>
+
+      <section>
+        <h2><span class="znak">⚔</span>Inicjatywa<span class="numer">V</span></h2>
+        <span class="formula">k20 + Zręczność + premie z kart</span>
+        <p>Przeciwnicy rzucają grupami — jeden typ ma jedną inicjatywę (gobliny wojownicy razem, łucznicy razem, ork dowódca osobno). Kolejność zostaje do końca walki.</p>
+        <p>Strona zaskakująca ma <strong>przewagę</strong>, zaskoczona — <strong>utrudnienie</strong>. Przy pełnym zaskoczeniu zaskoczeni mają w pierwszej rundzie tylko <strong>1 akcję</strong>.</p>
+      </section>
+
+      <section>
+        <h2><span class="znak">⚔</span>Tura i akcje<span class="numer">VI</span></h2>
+        <p>W turze masz <strong>2 akcje</strong>: <strong>ruch, atak lub manewr, użycie karty, zaklęcie, pomoc, obrona, interakcja, podniesienie przedmiotu, ucieczka.</strong> Możesz powtórzyć tę samą akcję, jeśli ma to sens.</p>
+        <p><strong>Obrona (akcja):</strong> do twojej następnej tury ataki przeciwko tobie mają utrudnienie.</p>
+      </section>
+
+      <section>
+        <h2><span class="znak">❖</span>Ruch i zasięg<span class="numer">VII</span></h2>
+        <p><strong>Blisko</strong> — walka wręcz · <strong>Średnio</strong> — dojdziesz za 1 akcję ruchu · <strong>Daleko</strong> — zasięg łuku i zaklęć · <strong>Bardzo daleko</strong> — poza zasięgiem.</p>
+        <span class="formula">Z figurkami: 1 ruch = 15 cm / 6 cali</span>
+      </section>
+
+      <section>
+        <h2><span class="znak">⚔</span>Obrona i trafienia<span class="numer">VIII</span></h2>
+        <p>Nie ma punktów życia — są <strong>trafienia</strong>. Bazowy <strong>Limit Trafień: 3</strong> (<strong>Siła +3</strong> daje +1). Gdy trafienia osiągną Limit, jesteś <strong>powalony</strong> i wypadasz z walki, dopóki ktoś ci nie pomoże albo walka się nie skończy.</p>
+        <span class="formula">Obrona = 10 + Zręczność + bonusy z kart</span>
+        <p>Przeciwnik musi wyrzucić tyle albo więcej, żeby cię trafić.</p>
+      </section>
+
+      <section>
+        <h2><span class="znak">⚔</span>Atak i manewry<span class="numer">IX</span></h2>
+        <span class="formula">k20 + pasujący atrybut vs Obrona celu</span>
+        <p>Broń wręcz — <strong>Siła</strong>; dystansowa — <strong>Zręczność</strong>; zaklęcia — <strong>Umysł</strong> lub <strong>Wola</strong>. Trafienie zadaje <strong>1 trafienie</strong>, chyba że karta mówi inaczej.</p>
+        <p><strong>Manewr</strong> zamiast obrażeń daje efekt: powalenie, odepchnięcie, rozbrojenie, przytrzymanie, zasłonięcie sojusznika, zepchnięcie, odwrócenie uwagi, zniszczenie obiektu. Przeciw otoczeniu testuj vs trudność.</p>
+        <p><strong>Naturalne 20:</strong> obrażenia <em>i</em> efekt manewru albo przewaga dla sojusznika.</p>
+      </section>
+
+      <section>
+        <h2><span class="znak">⚔</span>Rzut obronny<span class="numer">X</span></h2>
+        <p>Niektóre karty pozwalają anulować trafienie. Karta wskazuje kość: na <strong>4+</strong> ignorujesz 1 trafienie, na <strong>1–3</strong> przyjmujesz je. Jeden rzut na jedno trafienie.</p>
+        <p><strong>k4</strong> lekki unik · <strong>k6</strong> tarcza, średni pancerz · <strong>k8</strong> ciężki pancerz, magiczna bariera · <strong>k10/k12</strong> relikwie.</p>
+      </section>
+
+      <section>
+        <h2><span class="znak">❖</span>Stany<span class="numer">XI</span></h2>
+        <ul>
+          <li><strong>Powalony</strong> — zużyj 1 akcję, żeby wstać.</li>
+          <li><strong>Oszołomiony</strong> — tracisz 1 akcję w następnej turze.</li>
+          <li><strong>Odsłonięty</strong> — następny atak przeciw tobie ma przewagę.</li>
+          <li><strong>Podpalony</strong> — koniec rundy: rzuć kością obrony lub k6; 1–3 trafienie.</li>
+          <li><strong>Przestraszony</strong> — nie zbliżasz się do źródła strachu.</li>
+          <li><strong>Zatruty</strong> — utrudnienie w testach Siły.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="znak">❖</span>Pomoc drużynie<span class="numer">XII</span></h2>
+        <p>Zużyj akcję i opisz, jak pomagasz. Sojusznik zyskuje <strong>przewagę</strong> do jednego rzutu <em>albo</em> <strong>utrudnienie</strong> dla jednego ataku wymierzonego w niego.</p>
+      </section>
+
+      <section>
+        <h2><span class="znak">❖</span>Karty<span class="numer">XIII</span></h2>
+        <p>Szczegóły są na kartach: broń, pancerz, tarcza, zaklęcie, leczenie, manewr, reakcja, premie, dodatkowe trafienie, rzut obronny, zasób, zasada fabularna. <strong>Jeśli zasada jest na karcie, możesz jej używać</strong> — karta wygrywa z zasadą ogólną.</p>
+      </section>
+
+      <section>
+        <h2><span class="znak">⚔</span>Przeciwnicy i morale<span class="numer">XIV</span></h2>
+        <p>Przeciwnik ma tylko: <strong>Obronę, Limit Trafień, Atak, kość obrony</strong> (jeśli ma pancerz), <strong>zasady specjalne i zachowanie</strong>. Słabi walczą grupami; bossowie mają własną inicjatywę.</p>
+        <p><strong>Morale:</strong> gdy grupa straci połowę modeli, lidera albo cel walki — MG rzuca:</p>
+        <span class="formula">k20 + Wola lidera vs 14</span>
+        <p>Porażka: uciekają, cofają się, poddają albo panikują.</p>
+      </section>
+
+      <section>
+        <h2><span class="znak">❖</span>Zasoby i złoto<span class="numer">XV</span></h2>
+        <p><strong>Złoto</strong> — zakupy, usługi · <strong>Zapasy</strong> — podróż, leczenie · <strong>Materiały</strong> — naprawy, budowa · <strong>Składniki</strong> — alchemia, rytuały · <strong>Reputacja</strong> — zniżki, zlecenia, pomoc NPC.</p>
+        <p>Ceny: <strong>1 zł</strong> nocleg, drobiazg · <strong>2 zł</strong> zwykła karta · <strong>3 zł</strong> dobra karta, naprawa · <strong>5 zł</strong> rzadka karta, specjalista · <strong>8+ zł</strong> relikwia, duża przysługa.</p>
+        <p>Po misji: <strong>2–6 złota</strong>, <strong>1–3 zasoby</strong>, czasem karta łupu.</p>
+      </section>
+
+      <section>
+        <h2><span class="znak">❖</span>Odpoczynek i rozwój<span class="numer">XVI</span></h2>
+        <p><strong>Krótki odpoczynek:</strong> usuń 1 trafienie. <strong>Długi:</strong> usuń wszystkie, odzyskaj efekty kart i Determinację. Długa podróż: <strong>1 zapas na bohatera</strong>.</p>
+        <p><strong>Rozwój:</strong> po misji zdobywasz <strong>1 Punkt Rozwoju</strong>. Za <strong>2 PR</strong> wybierz: +1 do atrybutu (maks +4), +1 do Limitu Trafień (maks 5) albo dodatkowy slot kart aktywnych (maks 6).</p>
+      </section>
+
+      <section>
+        <div class="motto">
+          <p><span class="znak">✦ ❧ ✦</span></p>
+          <p>Najważniejsza zasada: nie pytaj „Czy mam taką umiejętność?” Pytaj:</p>
+          <p><strong>„Jak chcę to zrobić?”</strong></p>
+          <p>Jeśli pomysł jest logiczny, ciekawy i pasuje do sceny, można go spróbować.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <footer class="stopka">BarDaMIgo · Prosty System RPG · Zasady — strona 1 z 2</footer>
+  </div>
+</div>
+
+<!-- ============ STRONA 2 — KARTA POSTACI ============ -->
+<div class="page">
+  <div class="frame">
+    <span class="corner tl">❧</span><span class="corner tr">❧</span>
+    <span class="corner bl">❧</span><span class="corner br">❧</span>
+
+    <header class="tytul">
+      <div class="nadtytul">Prosty System RPG</div>
+      <div class="logotyp"><span class="miecz">⚔</span>BarDaMIgo<span class="miecz">⚔</span></div>
+      <div class="podtytul">Karta Postaci</div>
+      <div class="separator"><span>✦ ❧ ✦</span></div>
+    </header>
+
+    <div class="karta">
+
+      <div class="sekcja">
+        <h3>Dane postaci</h3>
+        <div class="rzad">
+          <div class="pole"><span class="etykieta">Imię postaci</span><span class="linia"></span></div>
+          <div class="pole"><span class="etykieta">Gracz</span><span class="linia"></span></div>
+        </div>
+        <div class="pole" style="margin-top:1mm;"><span class="etykieta">Rola / koncepcja</span><span class="linia"></span><span style="font-size:6.1pt; font-style:italic; color:var(--ink-soft); white-space:nowrap;">np. „silny mag z tarczą”</span></div>
+        <div class="pole" style="margin-top:1mm;"><span class="etykieta">Opis postaci</span><span class="linia"></span></div>
+        <div class="pole" style="margin-top:1mm;"><span class="etykieta">Cel postaci</span><span class="linia"></span></div>
+      </div>
+
+      <div class="rzad">
+        <div class="sekcja atrybuty">
+          <h3>Atrybuty</h3>
+          <table>
+            <tr><td><span class="nazwa">Siła</span> <span class="opis">walka wręcz, dźwiganie, wytrzymałość</span></td><td class="wartosc"></td></tr>
+            <tr><td><span class="nazwa">Zręczność</span> <span class="opis">uniki, refleks, strzelanie, inicjatywa</span></td><td class="wartosc"></td></tr>
+            <tr><td><span class="nazwa">Umysł</span> <span class="opis">wiedza, magia, analiza, taktyka</span></td><td class="wartosc"></td></tr>
+            <tr><td><span class="nazwa">Wola</span> <span class="opis">odwaga, charyzma, wiara, koncentracja</span></td><td class="wartosc"></td></tr>
+          </table>
+          <div class="przypominajka"><strong>Rozdziel: +3, +2, +1, +0</strong> · rozwój do +4</div>
+        </div>
+
+        <div class="sekcja">
+          <h3>Walka</h3>
+          <div class="pole"><span class="etykieta">Obrona</span><span class="linia"></span><span style="font-size:6.1pt; font-style:italic; color:var(--ink-soft); white-space:nowrap;">= 10 + Zręczność + karty</span></div>
+          <div class="pole" style="margin-top:1mm;"><span class="etykieta">Limit Trafień</span><span class="linia"></span><span style="font-size:6.1pt; font-style:italic; color:var(--ink-soft); white-space:nowrap;">= 3 + bonusy</span></div>
+          <div class="pole" style="margin-top:1mm;"><span class="etykieta">Bonus do inicjatywy</span><span class="linia"></span></div>
+          <div class="pole" style="margin-top:1mm;"><span class="etykieta">Kości obrony z kart</span><span class="linia"></span></div>
+          <div class="check" style="margin-top:1mm;"><div class="cb"></div><span class="nazwa-stanu"><strong>Determinacja</strong></span>&nbsp;<span style="font-size:6.1pt; font-style:italic;">(1/misję: przerzut albo zignoruj 1 trafienie)</span></div>
+        </div>
+      </div>
+
+      <div class="sekcja">
+        <h3>Trafienia</h3>
+        <div class="kratki">
+          <div class="kratka"><div class="box"></div><div class="nr">1</div></div>
+          <div class="kratka"><div class="box"></div><div class="nr">2</div></div>
+          <div class="kratka"><div class="box"></div><div class="nr">3</div></div>
+          <div class="kratka"><div class="box"></div><div class="nr">4</div></div>
+          <div class="kratka"><div class="box"></div><div class="nr">5</div></div>
+          <div class="kratka"><div class="box"></div><div class="nr">6</div></div>
+          <div class="kratka"><div class="box"></div><div class="nr">7</div></div>
+          <div class="kratka"><div class="box"></div><div class="nr">8</div></div>
+        </div>
+        <div class="przypominajka"><strong>Gdy liczba trafień osiągnie Limit Trafień, jesteś powalony.</strong></div>
+      </div>
+
+      <div class="rzad">
+        <div class="sekcja">
+          <h3>Karty aktywne</h3>
+          <table>
+            <tr><th style="width:16mm;">Slot</th><th>Nazwa karty</th><th style="width:14mm;">Typ</th></tr>
+            <tr><td><span class="slot-nazwa">Broń</span> <span class="slot-znak">⚔</span></td><td></td><td></td></tr>
+            <tr><td><span class="slot-nazwa">Ochrona</span> <span class="slot-znak">❖</span></td><td></td><td></td></tr>
+            <tr><td><span class="slot-nazwa">Dowolna</span></td><td></td><td></td></tr>
+            <tr><td><span class="slot-nazwa">Dowolna</span></td><td></td><td></td></tr>
+            <tr><td><span class="slot-nazwa">Rozwój</span> <span class="slot-znak">✦</span></td><td></td><td></td></tr>
+            <tr><td><span class="slot-nazwa">Rozwój</span> <span class="slot-znak">✦</span></td><td></td><td></td></tr>
+          </table>
+          <div class="przypominajka">sloty „Rozwój” odblokowujesz za Punkty Rozwoju</div>
+        </div>
+
+        <div class="sekcja">
+          <h3>Plecak / dodatkowe karty</h3>
+          <table>
+            <tr><th>Karta / przedmiot</th><th style="width:14mm;">Typ</th></tr>
+            <tr><td></td><td></td></tr>
+            <tr><td></td><td></td></tr>
+            <tr><td></td><td></td></tr>
+            <tr><td></td><td></td></tr>
+            <tr><td></td><td></td></tr>
+            <tr><td></td><td></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="rzad">
+        <div class="sekcja">
+          <h3>Rzuty obronne</h3>
+          <table>
+            <tr><th>Źródło</th><th class="waska">Kość</th><th>Kiedy działa?</th></tr>
+            <tr><td></td><td class="waska"></td><td></td></tr>
+            <tr><td></td><td class="waska"></td><td></td></tr>
+            <tr><td></td><td class="waska"></td><td></td></tr>
+          </table>
+          <div class="przypominajka">k4–k12 · <strong>na 4+ ignorujesz trafienie</strong></div>
+          <h3 style="margin-top:1.2mm;">Rozwój postaci</h3>
+          <div class="mini-kratki">
+            <span class="etykieta">Punkty Rozwoju:</span>
+            <div class="box"></div><div class="box"></div><div class="box"></div><div class="box"></div>
+            <div class="box"></div><div class="box"></div><div class="box"></div><div class="box"></div>
+          </div>
+          <div class="przypominajka" style="text-align:left;">2 PR = +1 atrybut (maks +4) · +1 Limit Trafień (maks 5) · dodatkowy slot</div>
+        </div>
+
+        <div class="sekcja">
+          <h3>Stany</h3>
+          <div class="checkboxy">
+            <div class="check"><div class="cb"></div><span class="nazwa-stanu">Powalony</span></div>
+            <div class="check"><div class="cb"></div><span class="nazwa-stanu">Oszołomiony</span></div>
+            <div class="check"><div class="cb"></div><span class="nazwa-stanu">Odsłonięty</span></div>
+            <div class="check"><div class="cb"></div><span class="nazwa-stanu">Podpalony</span></div>
+            <div class="check"><div class="cb"></div><span class="nazwa-stanu">Przestraszony</span></div>
+            <div class="check"><div class="cb"></div><span class="nazwa-stanu">Zatruty</span></div>
+            <div class="check"><div class="cb"></div><span class="nazwa-stanu">Inny:</span><div class="lin"></div></div>
+          </div>
+          <h3 style="margin-top:1.2mm;">Zasoby osobiste</h3>
+          <div class="rzad" style="margin-bottom:0;">
+            <div class="pole"><span class="etykieta">Złoto</span><span class="linia"></span></div>
+            <div class="pole"><span class="etykieta">Zapasy</span><span class="linia"></span></div>
+          </div>
+          <div class="rzad" style="margin:.9mm 0 0;">
+            <div class="pole"><span class="etykieta">Materiały</span><span class="linia"></span></div>
+            <div class="pole"><span class="etykieta">Składniki</span><span class="linia"></span></div>
+          </div>
+          <div class="pole" style="margin-top:.9mm;"><span class="etykieta">Reputacja / przysługi</span><span class="linia"></span></div>
+        </div>
+      </div>
+
+      <div class="sekcja" style="flex:1; min-height:0;">
+        <h3>Notatki</h3>
+        <div class="przypominajka" style="text-align:left; margin:0 0 .4mm;">kontakty · sekrety · blizny · długi · ważne przedmioty · relacje</div>
+        <div class="notatki-linie">
+          <div></div><div></div><div></div>
+        </div>
+      </div>
+
+      <div class="tura">
+        <div class="naglowek"><span class="znak">⚔</span>W turze masz 2 akcje<span class="znak">⚔</span></div>
+        <p>ruch · atak lub manewr · użycie karty · zaklęcie · pomoc · obrona · interakcja · podniesienie przedmiotu · ucieczka</p>
+        <p class="pytanie">Najważniejsze pytanie: „Jak chcę to zrobić?”</p>
+      </div>
+
+    </div>
+
+    <footer class="stopka">BarDaMIgo · Prosty System RPG · Karta Postaci — strona 2 z 2</footer>
+  </div>
+</div>
+
+</body>
+</html>

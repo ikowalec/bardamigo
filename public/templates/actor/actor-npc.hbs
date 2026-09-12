@@ -1,0 +1,89 @@
+<div class="bardamigo-sheet-container npc">
+  <div class="frame">
+    <span class="corner tl">❧</span><span class="corner tr">❧</span>
+    <span class="corner bl">❧</span><span class="corner br">❧</span>
+
+    <header class="sheet-top-header">
+      <div class="logotyp"><span class="miecz">⚔</span>{{localize "BARDAMIGO.Title"}}<span class="miecz">⚔</span></div>
+      <div class="podtytul">{{localize "BARDAMIGO.NPC"}}</div>
+      <div class="separator"><span>✦ ❧ ✦</span></div>
+    </header>
+
+    <div class="karta-content">
+      <section class="sekcja npc-main-details">
+        <div class="rzad">
+          <div class="avatar-box">
+            <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+          </div>
+          <div class="fields-col flex2">
+            <div class="pole">
+              <span class="etykieta">{{localize "Name"}}:</span>
+              <input name="name" type="text" value="{{actor.name}}" />
+            </div>
+            <div class="rzad" style="margin-bottom: 0;">
+              <div class="pole">
+                <span class="etykieta">{{localize "BARDAMIGO.Combat.Defense"}}:</span>
+                <input type="number" name="system.defense" value="{{system.defense}}" data-dtype="Number" />
+              </div>
+              <div class="pole">
+                <span class="etykieta">{{localize "BARDAMIGO.Combat.HitLimit"}}:</span>
+                <input type="number" name="system.hitLimit" value="{{system.hitLimit}}" data-dtype="Number" />
+              </div>
+              <div class="pole">
+                <span class="etykieta">{{localize "BARDAMIGO.Combat.Hits"}}:</span>
+                <input type="number" name="system.hits" value="{{system.hits}}" data-dtype="Number" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {{!-- NPC Combat Actions --}}
+      <section class="sekcja npc-actions">
+        <div class="rzad">
+          <div class="pole flex2">
+            <span class="etykieta">{{localize "BARDAMIGO.NPC.Atk"}}:</span>
+            <input type="text" name="system.attack.description" value="{{system.attack.description}}" placeholder="e.g. 1d20 + 2 (1 hit)" />
+          </div>
+          <div class="pole flex1">
+            <span class="etykieta">{{localize "BARDAMIGO.NPC.DefenseDie"}}:</span>
+            <select name="system.defenseDie">
+              <option value="none" {{#if (eq system.defenseDie "none")}}selected{{/if}}>None</option>
+              <option value="d4" {{#if (eq system.defenseDie "d4")}}selected{{/if}}>k4 / d4</option>
+              <option value="d6" {{#if (eq system.defenseDie "d6")}}selected{{/if}}>k6 / d6</option>
+              <option value="d8" {{#if (eq system.defenseDie "d8")}}selected{{/if}}>k8 / d8</option>
+              <option value="d10" {{#if (eq system.defenseDie "d10")}}selected{{/if}}>k10 / d10</option>
+              <option value="d12" {{#if (eq system.defenseDie "d12")}}selected{{/if}}>k12 / d12</option>
+            </select>
+          </div>
+          {{#if (ne system.defenseDie "none")}}
+            <div class="pole flexnone" style="align-self: flex-end;">
+              <button type="button" class="roll-defense-btn" data-action="rollDefense">
+                <i class="fas fa-shield-alt"></i>
+              </button>
+            </div>
+          {{/if}}
+        </div>
+
+        <div class="rzad" style="margin-top: 8px;">
+          <div class="pole flex1">
+            <span class="etykieta">{{localize "BARDAMIGO.Attributes.Will"}}:</span>
+            <input type="number" name="system.will" value="{{system.will}}" data-dtype="Number" />
+          </div>
+          <div class="pole flex2" style="align-self: flex-end;">
+            <button type="button" class="roll-btn" data-action="rollMorale" style="width: 100%;">
+              <i class="fas fa-flag"></i> {{localize "BARDAMIGO.NPC.Morale"}} (vs 14)
+            </button>
+          </div>
+        </div>
+        <div class="przypominajka">{{localize "BARDAMIGO.NPC.MoraleDesc"}}</div>
+      </section>
+
+      {{!-- Special Rules & Behavior --}}
+      <section class="sekcja npc-rules">
+        <h3>{{localize "BARDAMIGO.NPC.SpecialRules"}}</h3>
+        {{editor system.specialRules target="system.specialRules" button=true owner=isOwner editable=editable engine="prosemirror"}}
+      </section>
+    </div>
+  </div>
+</div>

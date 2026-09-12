@@ -1,0 +1,38 @@
+{
+  "id": "bardamigo",
+  "title": "BarDaMIgo",
+  "description": "BarDaMIgo tabletop gaming system for Foundry Virtual Tabletop (v14).",
+  "version": "0.1.0",
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14"
+  },
+  "authors": [
+    {
+      "name": "BarDaMIgo Team"
+    }
+  ],
+  "esmodules": [
+    "bardamigo.js"
+  ],
+  "styles": [
+    "styles/bardamigo.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    },
+    {
+      "lang": "pl",
+      "name": "Polski",
+      "path": "lang/pl.json"
+    }
+  ],
+  "packs": [],
+  "url": "https://github.com/your-username/bardamigo",
+  "manifest": "https://github.com/your-username/bardamigo/releases/latest/download/system.json",
+  "download": "https://github.com/your-username/bardamigo/releases/latest/download/bardamigo.zip",
+  "license": "LICENSE"
+}

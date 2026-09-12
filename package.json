@@ -1,0 +1,28 @@
+{
+  "name": "bardamigo",
+  "version": "0.1.0",
+  "description": "BarDaMIgo tabletop gaming system for Foundry Virtual Tabletop (v14)",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "watch": "vite build --watch",
+    "link": "node scripts/link-foundry.mjs"
+  },
+  "keywords": [
+    "foundryvtt",
+    "foundry-vtt-system",
+    "bardamigo",
+    "ttrpg",
+    "v14"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@league-of-foundry-developers/foundry-vtt-types": "^12.331.0",
+    "fs-extra": "^11.2.0",
+    "sass": "^1.77.8",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.2"
+  }
+}
